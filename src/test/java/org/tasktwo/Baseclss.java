@@ -410,15 +410,6 @@ public class Baseclss extends Locators {
 		Thread.sleep(3000);
 		clseWindow();
 
-		// Using action class
-		// WebElement resizerBox=driver.findElement(By.xpath("//div[@id='resizable']"));
-		// WebElement
-		// resizer=driver.findElement(By.xpath("//div[@class='ui-resizable-handle
-		// ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se']"));
-		// Actions act = new Actions(driver);
-		// act.clickAndHold(resizer).moveToElement(resizerBox, 470, 162).perform();
-		// Thread.sleep(4000);
-		// driver.close();
 	}
 
 	// Scroll down to specific location using javaScript with height & width
