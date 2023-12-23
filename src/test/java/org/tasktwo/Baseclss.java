@@ -150,19 +150,6 @@ public class Baseclss extends Locators {
 		clseWindow();
 	}
 
-	// Actions act = new Actions(driver);
-	// act.moveToElement().perform();
-
-	// JavascriptExecutor js = (JavascriptExecutor) driver;
-	// js.executeScript("arguments[0].scrollIntoView()", linkButton);
-	// List<WebElement> all= driver.findElements(xpath);
-	// for (WebElement element : all) {
-	// String socialMedia = element.getText();
-	// System.out.println(socialMedia);
-	// }
-	// SyncTime.commonWait(2);
-	// clseWindow();
-
 	// Click the links through linkedtext
 	public void clickLinkButton(String linkedtext, String clkbtn) throws IOException {
 		WebElement linkButton = driver.findElement(By.linkText(linkedtext));
