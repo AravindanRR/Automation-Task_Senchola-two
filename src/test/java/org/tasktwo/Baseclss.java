@@ -27,6 +27,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.tasktwo.SyncTime;
 
 public class Baseclss extends Locators {
 	static WebDriver driver = null;
@@ -40,7 +41,7 @@ public class Baseclss extends Locators {
 			// scrollDownAct();
 			// scrollDownSpecificElement("//h2[text()='Web Table']");
 			// scrollDown();
-			robScrnshot("Home page - ");
+			// robScrnshot("Home page - ");
 			// scrnshot("LaunchBrowser - ");
 			// fullPagescrnshot("Launch - ");
 		} else {
@@ -107,22 +108,145 @@ public class Baseclss extends Locators {
 		WebElement textEnt = driver.findElement(xpath);
 		textEnt.clear();
 		textEnt.sendKeys(text);
+		driver.findElement(By.xpath("//button[@class='_2iLD__']")).click();
 		scrnshot(fieldname);
+		driver.navigate().back();
+		clseWindow();
+	}
+	
+	public void searchBoxClick(By xpath) {
+		driver.findElement(xpath).click();
+		SyncTime.commonWait(3);
+		clseWindow();
 	}
 
 	// Enter the text using Js
 	public void enterTextJs() {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("document.getElementById('name').value='Aravind';");
+
+	}
+
+	public void getMoreOptions(By xpath, By xpath2, String clkbtn) throws IOException {
+		WebElement moreOption = driver.findElement(xpath);
+		moreOption.click();
+		List<WebElement> moreOp = driver.findElements(xpath2);
+		for (WebElement element : moreOp) {
+			String moreOptions = element.getAttribute("title");
+			System.out.println(moreOptions);
+		}
+		scrnshot(clkbtn);
+		clseWindow();
+	}
+	public void clickMoreOptions(By xpath, String linkText, String clkbtn) throws IOException {
+		WebElement moreOption = driver.findElement(xpath);
+		moreOption.click();
 		
+		WebElement option = driver.findElement(By.linkText(linkText));
+		Actions act = new Actions(driver);
+		 act.moveToElement(option).click().perform();
+		scrnshot(clkbtn);
+		scrollDown();
+		clseWindow();
+	}
+
+	// Actions act = new Actions(driver);
+	// act.moveToElement().perform();
+
+	// JavascriptExecutor js = (JavascriptExecutor) driver;
+	// js.executeScript("arguments[0].scrollIntoView()", linkButton);
+	// List<WebElement> all= driver.findElements(xpath);
+	// for (WebElement element : all) {
+	// String socialMedia = element.getText();
+	// System.out.println(socialMedia);
+	// }
+	// SyncTime.commonWait(2);
+	// clseWindow();
+
+	// Click the links through linkedtext
+	public void clickLinkButton(String linkedtext, String clkbtn) throws IOException {
+		WebElement linkButton = driver.findElement(By.linkText(linkedtext));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView()", linkButton);
+		linkButton.click();
+		SyncTime.commonWait(2);
+		System.out.println("CurrentUrl: " + driver.getCurrentUrl());
+		SyncTime.commonWait(2);
+		scrnshot(clkbtn);
+		driver.navigate().back();
+		clseWindow();
+	}
+
+	// Click the links through linkedtext
+	public void clickLnkButton(String linkedtext, By xpath, String clkbtn) throws IOException, InterruptedException {
+
+		WebElement bottomButton = driver
+				.findElement(By.xpath("//div[@class='_3I5N7v' and contains(text(),'CONSUMER POLICY')]"));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView()", bottomButton);
+
+		List<WebElement> all = driver.findElements(xpath);
+		for (int i = 1; i < all.size(); i++) {
+			WebElement linkButtons = driver.findElement(By.linkText(all.get(i).getText()));
+			linkButtons.click();
+			SyncTime.commonWait(2);
+			System.out.println("CurrentUrl: " + driver.getCurrentUrl());
+			SyncTime.commonWait(3);
+			scrnshot(clkbtn);
+			driver.navigate().back();
+			WebElement btnButton = driver
+					.findElement(By.xpath("//div[@class='_3I5N7v' and contains(text(),'CONSUMER POLICY')]"));
+			JavascriptExecutor jas = (JavascriptExecutor) driver;
+			jas.executeScript("arguments[0].scrollIntoView()", btnButton);
+			SyncTime.commonWait(60);
+		}
+
+		scrnshot(clkbtn);
+		clseWindow();
+	}
+
+	public void getLinkText(String linkedtext, By xpath, String clkbtn) throws InterruptedException {
+		WebElement linkButton = driver.findElement(By.linkText(linkedtext));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView()", linkButton);
+		List<WebElement> all = driver.findElements(xpath);
+		for (WebElement element : all) {
+			String socialMedia = element.getText();
+			System.out.println(socialMedia);
+		}
+		SyncTime.commonWait(2);
+		clseWindow();
+	}
+
+	// Click the given Subscribtion links
+	public void vindowHandl(String linkText, String sublink) throws IOException {
+		WebElement Sublinks = driver.findElement(By.linkText(linkText));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView()", Sublinks);
+		Sublinks.click();
+		SyncTime.commonWait(2);
+		String parentwindow = driver.getWindowHandle();
+		System.out.println("Parent Window: " + parentwindow);
+		Set<String> allWindows = driver.getWindowHandles();
+
+		for (String string : allWindows) {
+			if (!(parentwindow.equals(string))) {
+				driver.switchTo().window(string);
+				System.out.println("Child Window: " + string);
+				System.out.println(driver.getCurrentUrl());
+				scrnshot(sublink);
+				clseallWindow();
+			}
+		}
+
 	}
 
 	// Click the button
 	public void clickButton(By xpath, String clkbtn) throws IOException {
-		scrolldown(0, 150);
-		WebElement buttonRadio = driver.findElement(xpath);
-		buttonRadio.click();
-		scrnshot(clkbtn);
+		// scrolldown(0, 150);
+		WebElement button = driver.findElement(xpath);
+		button.click();
+		// scrnshot(clkbtn);
 	}
 
 	// Select the radiobutton
@@ -142,7 +266,7 @@ public class Baseclss extends Locators {
 	}
 
 	public void loadWaits(String id, String checkbx, Duration y) throws IOException {
-		//WebDriverWait wait = new WebDriverWait(driver, y);
+		// WebDriverWait wait = new WebDriverWait(driver, y);
 		WebElement checkBx = driver.findElement(By.id(id));
 		checkBx.click();
 		scrnshot(checkbx);
@@ -157,7 +281,7 @@ public class Baseclss extends Locators {
 	}
 
 	// Choose the colour
-	public void selectedByText (String text, String id, String color) throws IOException {
+	public void selectedByText(String text, String id, String color) throws IOException {
 		WebElement Changecolor = driver.findElement(By.id(id));
 		Select sltcolor = new Select(Changecolor);
 		sltcolor.selectByValue(text);
@@ -171,6 +295,7 @@ public class Baseclss extends Locators {
 		sltcolor.selectByValue(text);
 		scrnshot(color);
 	}
+
 	// Choose the multiple colour
 	public void selectMultipleOptionsByVisibleText(String text, String id, String color) throws IOException {
 		WebElement Changecolor = driver.findElement(By.id(id));
@@ -186,9 +311,10 @@ public class Baseclss extends Locators {
 
 	public void validateColor() {
 		WebElement ele = driver.findElement(By.xpath("//div[@class='_2NhoPJ']"));
-		
+
 		System.out.println(ele.getCssValue("color"));
 	}
+
 	// enter the date
 	public void selectDates(String text, String id, String date) throws IOException, InterruptedException {
 		scrolldown(0, 650);
@@ -200,20 +326,25 @@ public class Baseclss extends Locators {
 	}
 
 	// Click the given links
-	public void clickLinks(String id, String text, String currentlink, long y)
-			throws IOException, InterruptedException {
-		WebElement links = driver.findElement(By.partialLinkText(id));
-		String ActualLinkName = links.getText();
-		String ExpectedLinkName = text;
-		if (ExpectedLinkName.equals(ActualLinkName))
-			links.click();
-		String Urllinks = driver.getCurrentUrl();
-		System.out.println(Urllinks);
-		if (Urllinks.equals(ActualLinkName))
+	public void clickLinks(String Linktext, String currentlink, long y) throws IOException, InterruptedException {
+		WebElement links = driver.findElement(By.linkText(Linktext));
+		links.click();
+		if (driver.getCurrentUrl().equals(links.getText()))
 			links.click();
 		Thread.sleep(y);
-		scrnshot(currentlink);
-		driver.navigate().back();
+		String parentWindow = driver.getWindowHandle();
+		Set<String> allWindows = driver.getWindowHandles();
+		for (String string : allWindows) {
+			if (!(parentWindow.equals(string))) {
+				System.out.println("Parent Window: " + parentWindow + "\n" + "Child Window: " + string);
+				driver.switchTo().window(string);
+				Boolean logoM = driver.findElement(By.xpath("//div[@class='_3qX0zy']")).isDisplayed();
+				System.out.println(driver.getCurrentUrl() + "\n" + logoM + "\n"
+						+ driver.findElement(By.xpath("//a[@class='_21ljIi']")).getText());
+				scrnshot(currentlink);
+				clseallWindow();
+			}
+		}
 	}
 
 	// Click the given Subscribtion links
@@ -397,8 +528,6 @@ public class Baseclss extends Locators {
 		scrnshot("Submitin_iFrame");
 		clseWindow();
 	}
-
-	
 
 	public void resizethetab() throws InterruptedException, IOException {
 		scrolldown(0, 1550);
