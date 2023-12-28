@@ -12,7 +12,7 @@ public class Firsttaskauto extends Basecls {
 	Firsttaskauto auto = new Firsttaskauto();
 	auto.launchBrowser();
 	auto.validateHomepage();
-	auto.enterTextJs();
+	auto.enterTextJs(); 
 	
 	// for text box
 //	auto.enterText("name", "Aravindan","NameField - ");

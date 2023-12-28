@@ -18,6 +18,21 @@ public class Locators {
 	public static final By more = By.xpath("//a[@class='_1TOQfO' and @title='Dropdown with more help links']");
 	public static final By moreTitle = By.xpath("//div[@class='H6-NpN']//following-sibling::ul//descendant::a");
 	public static final By searchBox = By.xpath("//input[@name='q']");
+	public static final By giftGeneric = By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='generic']");
+	public static final By giftAnniversary = By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='anniversary']");
+	public static final By giftMore = By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='more']");
+	public static final By giftBirthday = By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='birthday']");
+	public static final By searchBtn = By.xpath("//button[@class='L0Z3Pu']");
 	
 	
+	static String beautyfood = "//div[contains(text(),'Beauty, Food, Toys & more')]//parent::div//following-sibling::div/div";
+	static String bestofElectronic = "//div[contains(text(),'Best of Electronics')]//parent::div//following-sibling::div/div";
+	static String sportsHealth = "//div[contains(text(),'Sports, Healthcare & more')]//parent::div//following-sibling::div/div";
+//	static String bestofElectronic = "//div[contains(text(),'Best of Electronics')]//parent::div//following-sibling::div/div";
+	
+	
+	
+	public static void loc(String argument) {
+		By searchBox = By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='"+argument+"']");
+	}
 }

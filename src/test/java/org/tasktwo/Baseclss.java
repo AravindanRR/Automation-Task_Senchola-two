@@ -3,6 +3,7 @@ package org.tasktwo;
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.tasktwo.SyncTime;
 
 public class Baseclss extends Locators {
@@ -104,6 +107,14 @@ public class Baseclss extends Locators {
 	}
 
 	// Enter the text in the text field using sendkeys
+	public void enterTextName(String id, String text) {
+		WebElement textEnt = driver.findElement(By.name(id));
+		textEnt.clear();
+		textEnt.sendKeys(text);
+		// scrnshot(fieldname);
+	}
+
+	// Enter the text in the text field using sendkeys
 	public void enterTextXpath(By xpath, String text, String fieldname) throws IOException {
 		WebElement textEnt = driver.findElement(xpath);
 		textEnt.clear();
@@ -113,7 +124,7 @@ public class Baseclss extends Locators {
 		driver.navigate().back();
 		clseWindow();
 	}
-	
+
 	public void searchBoxClick(By xpath) {
 		driver.findElement(xpath).click();
 		SyncTime.commonWait(3);
@@ -138,13 +149,20 @@ public class Baseclss extends Locators {
 		scrnshot(clkbtn);
 		clseWindow();
 	}
+
+	public void mouseOverAct(String linkText) {
+		WebElement element = driver.findElement(By.linkText(linkText));
+		Actions act = new Actions(driver);
+		act.moveToElement(element).click().build().perform();
+	}
+
 	public void clickMoreOptions(By xpath, String linkText, String clkbtn) throws IOException {
 		WebElement moreOption = driver.findElement(xpath);
 		moreOption.click();
-		
+
 		WebElement option = driver.findElement(By.linkText(linkText));
 		Actions act = new Actions(driver);
-		 act.moveToElement(option).click().perform();
+		act.moveToElement(option).click().perform();
 		scrnshot(clkbtn);
 		scrollDown();
 		clseWindow();
@@ -228,12 +246,250 @@ public class Baseclss extends Locators {
 
 	}
 
+	public void profilePage(String linkText, String linkText1, String shot) throws AWTException, IOException {
+		WebElement login = driver.findElement(By.linkText(linkText));
+		Actions act = new Actions(driver);
+		SyncTime.commonWait(10);
+		act.moveToElement(login).perform();
+		WebElement navigation = driver.findElement(By.linkText(linkText1));
+		act.moveToElement(navigation).click().perform();
+		scrnshot(shot);
+		SyncTime.commonWait(5);
+		scrollDown();
+	}
+
+	public void giftCard(String linkText, String linkText1, By xpath) throws InterruptedException {
+		WebElement login = driver.findElement(By.linkText(linkText));
+		Actions act = new Actions(driver);
+		SyncTime.commonWait(10);
+		act.moveToElement(login).perform();
+		WebElement navigation = driver.findElement(By.linkText(linkText1));
+		act.moveToElement(navigation).click().perform();
+		WebElement newPage = driver.findElement(xpath);
+		newPage.click();
+
+	}
+
+	public void giftCardFilter(String linkText, String linkText1, By xpath) throws InterruptedException {
+		WebElement login = driver.findElement(By.linkText(linkText));
+		Actions act = new Actions(driver);
+		SyncTime.commonWait(10);
+		act.moveToElement(login).perform();
+		WebElement navigation = driver.findElement(By.linkText(linkText1));
+		act.moveToElement(navigation).click().perform();
+
+		WebElement newPage = driver.findElement(By.xpath("//img[@class='kJjFO0 _3DIhEh'and @alt='generic']"));
+		newPage.click();
+		SyncTime.commonWait(6);
+		scrollDown();
+		SyncTime.commonWait(10);
+		// bottom to top
+		WebElement backToTop = driver.findElement(By.xpath("//span[contains(text(),'Back to top')]"));
+		// backToTop.click();
+		SyncTime.commonWait(10);
+		// Navigate the filter
+		WebElement lowToHigh = driver
+				.findElement(By.xpath("//div[@class='_10UF8M' and contains(text(),'Price -- Low to High')]"));
+		lowToHigh.click();
+		WebElement highToLow = driver
+				.findElement(By.xpath("//div[@class='_10UF8M' and contains(text(),'Price -- High to Low')]"));
+		highToLow.click();
+		WebElement newestFirst = driver
+				.findElement(By.xpath("//div[@class='_10UF8M' and contains(text(),'Newest First')]"));
+		newestFirst.click();
+	}
+
+	public void logoValidation() {
+		WebElement logoPresent = driver.findElement(By.xpath("//img[@title='Flipkart']"));
+		System.out.println("LogoPresent:- " + logoPresent.isDisplayed());
+		System.out.println(logoPresent.getCssValue("color"));
+		logoPresent.click();
+	}
+
+	public void mainMenuValidation() {
+		WebElement logoPresent = driver.findElement(By.xpath("//img[@title='Flipkart']"));
+		String Title = logoPresent.getAttribute("title");
+		WebElement searchBox = driver.findElement(By.xpath("//input[@class='Pke_EE']"));
+		String searchBoxTitle = searchBox.getAttribute("title");
+		List<WebElement> login = driver.findElements(By.xpath("//a[@class='_1TOQfO']"));
+		for (WebElement element : login) {
+			String loginTitle = element.getAttribute("title");
+			System.out.println("3. Login & MoreOptions:- " + loginTitle);
+		}
+		WebElement cart = driver.findElement(By.xpath("//a[@class='_3RX0a-']"));
+		String cartPage = cart.getAttribute("title");
+		WebElement seller = driver.findElement(By.xpath("//a[@class='_3RX0a- _3jeYYh']"));
+		String sellerBecome = seller.getAttribute("title");
+		System.out.println("1. Logo:- " + Title + "\n" + "2. SearchBox:- " + searchBoxTitle + "\n" + "4. Cart:- "
+				+ cartPage + "\n" + "5. Seller:- " + sellerBecome);
+	}
+
+	public void diffCategories() {
+		for (int i = 1; i <= 9; i++) {
+			WebElement category = driver.findElement(By.xpath("(//span[@class='_1XjE3T'])[" + i + "]"));
+			System.out.println(i + " - " + category.getText());
+		}
+	}
+
+	public void poster(String direction) throws InterruptedException {
+		WebElement slide = driver.findElement(By.xpath("//button[@title='" + direction + "']"));
+		slide.click();
+		Thread.sleep(5000);
+	}
+
+	public void flightPoster() throws InterruptedException, AWTException {
+		WebElement flightpost = driver.findElement(By.xpath("(//div[@class='zlQd20 ']/picture/img)[7]"));
+		Boolean post = flightpost.isDisplayed();
+		System.out.println(post);
+		scrollDownSpecificElement("(//div[@class='zlQd20 ']/picture/img)[7]");
+		Thread.sleep(3000);
+		flightpost.click();
+		// Robot rob = new Robot();
+		// for (int i = 1; i <=36; i++) {
+		// rob.keyPress(KeyEvent.VK_TAB);
+		// rob.keyRelease(KeyEvent.VK_TAB);
+		// }
+		//
+		// rob.keyPress(KeyEvent.VK_ENTER);
+		// rob.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(3000);
+		logoValidation();
+		WebElement flightBookTab = driver.findElement(By.xpath("//div[@class='_3XCEEm']"));
+		Boolean booking = flightBookTab.isDisplayed();
+		System.out.println(booking);
+		driver.navigate().back();
+
+	}
+
+	public void product(String xpath) throws InterruptedException {
+		scrollDownSpecificElement(xpath);
+		WebElement product = driver.findElement(By.xpath(xpath));
+		product.click();
+		Thread.sleep(4000);
+		WebElement itemCount = driver.findElement(By.xpath("//div[@class='_3vaoUF']"));
+		System.out.println(itemCount.getText());
+
+		Thread.sleep(4000);
+		driver.findElement(By.xpath("(//div[@class='_1FNrEw'])[1]")).click();
+		Thread.sleep(3000);
+		String CurrentUrl = driver.getCurrentUrl();
+		System.out.println(CurrentUrl);
+	}
+
+	public void categories(String categories) throws InterruptedException {
+		WebElement list = driver.findElement(By
+				.xpath("//div[@class='_3ETuFY']//following-sibling::span/span[contains(text(),'" + categories + "')]"));
+		list.click();
+		Thread.sleep(4000);
+		Boolean homepage = driver.findElement(By.className("_1fqNI-")).isDisplayed();
+		System.out.println("Flipkart Homepage Button Displayed :- " + homepage);
+		Boolean GroceryPage = driver.findElement(By.className("_2xm1JU")).isDisplayed();
+		System.out.println("GroceryPage Logo is Displayed :- " + GroceryPage);
+	}
+
+	public void flipkartCategories(String categories) throws InterruptedException {
+		WebElement list = driver.findElement(By
+				.xpath("//div[@class='_3ETuFY']//following-sibling::span/span[contains(text(),'" + categories + "')]"));
+		list.click();
+		Thread.sleep(4000);
+		Boolean homepage = driver.findElement(By.className("_3qX0zy")).isDisplayed();
+		System.out.println("Flipkart Homepage Button Displayed :- " + homepage);
+
+	}
+	public void getMail() {
+		scrollDownSpecificElement("//div[@class='MkhHNl btl4ck']//following::div/p");
+		List<WebElement> mailAddress=driver.findElements(By.xpath("//div[@class='MkhHNl btl4ck']//following::div/p"));
+		for (WebElement element : mailAddress) {
+			System.out.println(element.getText());
+		}
+	
+		
+	}
+	public void flipkrtcateDropdown(String categories) throws InterruptedException, AWTException {
+		WebElement list = driver.findElement(By
+				.xpath("//div[@class='_3ETuFY']//following-sibling::span/span[contains(text(),'" + categories + "')]"));
+		list.click();
+		WebElement move = driver.findElement(By.xpath("//a[contains(text(),'Men Footwear')]"));
+		Actions act = new Actions(driver);
+		act.moveToElement(move).perform();
+		WebElement moveInto = driver.findElement(By.xpath("//a[contains(text(),'Casual Shoes')and @class='_3490ry']"));
+		act.moveToElement(moveInto).click().perform();
+		Thread.sleep(5000);
+		driver.findElement(By.className("_34uFYj")).sendKeys("WoodLand");
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//div[@class='_4921Z t0pPfW' and @title='WOODLAND']")).click();
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("(//div[@class='_13oc-S']//following::div/div[@data-id])[2]")).click();		
+		Boolean homepage = driver.findElement(By.className("_3qX0zy")).isDisplayed();
+		System.out.println("Flipkart Homepage Button Displayed :- " + homepage);
+	}
+
+	public void grocery() throws AWTException, InterruptedException {
+		categories("Grocery");
+		enterTextName("pincode", "624709");
+		Robot rob = new Robot();
+		rob.keyPress(KeyEvent.VK_ENTER);
+		rob.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(4000);
+		enterTextName("q", "Coconut oil");
+		clickButton(searchBtn, null);
+		validateGroceryHome();
+	}
+
+	public void validateGroceryHome() {
+		Boolean homepage = driver.findElement(By.className("_1fqNI-")).isDisplayed();
+		System.out.println(homepage);
+	}
+
+	public void getAllGroceryCate() throws InterruptedException, AWTException {
+		categories("Grocery");
+		enterTextName("pincode", "624709");
+		Robot rob = new Robot();
+		rob.keyPress(KeyEvent.VK_ENTER);
+		rob.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(4000);
+		List<WebElement> categories = driver.findElements(By.className("xtXmba"));
+		for (WebElement element : categories) {
+			System.out.println(element.getText());
+		}
+	}
+
+	public void becomeSellerPage() {
+		driver.findElement(By.xpath("//a[@class='_1krdK5 _3jeYYh' and contains(text(),'Become a Seller')]")).click();
+		Boolean logo = driver.findElement(By.xpath("//div[contains(@class,'styles__StyledHeaderContainer')]//a/img")).isDisplayed();
+		System.out.println("Become Seller Page Logo is Displayed :- "+logo);
+		scrollDown();
+	}
+	
+	public void advertise() {
+		scrollDown();
+		driver.findElement(By.xpath("//span[contains(text(),'Advertise')]")).click();
+		scrollDown();
+	}
+	
+	public void cartPage() throws InterruptedException, AWTException {
+		WebElement textEnt = driver.findElement(searchBox);
+		textEnt.clear();
+		textEnt.sendKeys("Smart TV");
+		driver.findElement(By.xpath("//button[@class='_2iLD__']")).click();
+		
+		WebElement list = driver.findElement(By
+				.xpath("//div[@class='_4rR01T' and contains(text(),'Mi A series 80 cm (32 inch) HD Ready LED Smart Google TV 2023 Edition with HD |Dolby Audio | DTS:HD | ...')]"));
+		list.click();
+		
+		Thread.sleep(3000);
+		WebElement move = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[3]/div[1]/div[1]/div[2]/div/ul/li[1]/button"));
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", move);
+	}
+	
 	// Click the button
-	public void clickButton(By xpath, String clkbtn) throws IOException {
+	public void clickButton(By xpath, String clkbtn) {
 		// scrolldown(0, 150);
 		WebElement button = driver.findElement(xpath);
 		button.click();
 		// scrnshot(clkbtn);
+
 	}
 
 	// Select the radiobutton

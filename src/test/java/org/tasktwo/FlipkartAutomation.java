@@ -74,9 +74,50 @@ public class FlipkartAutomation extends Baseclss {
 //		flip.clickMoreOptions(more, "Download App", "Download App - ");
 		
 		// 14.Enter the text in the searchbox
-		// flip.enterTextXpath(searchBox, "Mobile", "SearchBox - ");
-		flip.searchBoxClick(searchBox);
+		// flip.enterTextXpath(searchBox, "fhone", "SearchBox - ");
+		// flip.searchBoxClick(searchBox);
 		
+		// Profile related
+		// flip.profilePage("Login","Flipkart Plus Zone", "Flipkart Plus Zone - ");
+		// flip.profilePage("Login","Gift Cards","Gift Card Page - ");
+		
+		// Different Gift cards
+//		flip.giftCard("Login", "Gift Cards", giftAnniversary);
+//		flip.giftCard("Login", "Gift Cards", giftGeneric);
+//		flip.giftCard("Login", "Gift Cards", giftMore);
+//		flip.giftCard("Login", "Gift Cards", giftBirthday);
+		
+		// flip.logoValidation();
+		// flip.mainMenuValidation();
+		
+		// flip.diffCategories();
+		
+		// flip.poster("Next Slide");
+		// flip.poster("Previous Slide");
+		
+//		flip.flightPoster();
+		
+//		flip.product(bestofElectronic);
+//		flip.product(beautyfood);
+//		flip.product(sportsHealth);
+		
+		// flip.categories("Grocery");
+		// flip.grocery();
+		// flip.validateGroceryHome();
+		// flip.getAllGroceryCate();
+		// flip.flipkartCategories("Mobiles");
+		
+	//	flip.flipkrtcateDropdown("Fashion");
+		
+		
+//		flip.flipkartCategories("Appliances");
+//		flip.flipkartCategories("Travel");
+		
+		//flip.getMail();
+//		flip.becomeSellerPage();
+	//	flip.advertise();
+		
+		flip.cartPage();
 		// flip.validateColor();
 		// flip.clickButton(createAccount, "Create New account");
 		// flip.enterTextXpath(createactphoneField, "9150925133", "PhonenumberField -

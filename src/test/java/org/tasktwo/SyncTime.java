@@ -39,5 +39,6 @@ public class SyncTime extends Baseclss {
 	public static void commonWait(int sec) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(sec));
 		wait.withTimeout(Duration.ofSeconds(sec));
+		
 	}
 }
