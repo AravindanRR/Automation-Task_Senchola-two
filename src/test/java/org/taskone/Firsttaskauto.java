@@ -12,13 +12,13 @@ public class Firsttaskauto extends Basecls {
 	Firsttaskauto auto = new Firsttaskauto();
 	auto.launchBrowser();
 	auto.validateHomepage();
-	auto.enterTextJs(); 
+//	auto.enterTextJs();
 	
 	// for text box
-//	auto.enterText("name", "Aravindan","NameField - ");
-//	auto.enterText("email", "aravindan10@gmail.com","EmailField - ");
-//	auto.enterText("phone", "9842961190","Mobileno - ");
-//	auto.enterText("textarea", "Plotno10,Thaai Moogambihai nagar, Dindigul","AddressField - ");
+	auto.enterText("name", "Aravindan","NameField - ");
+	auto.enterText("email", "aravindan10@gmail.com","EmailField - ");
+	auto.enterText("phone", "9842961190","Mobileno - ");
+	auto.enterText("textarea", "Plotno10,Thaai Moogambihai nagar, Dindigul","AddressField - ");
 	
 	// for radiobutton
 //	auto.radioButton("male","maleradiobtn");
@@ -98,7 +98,7 @@ public class Firsttaskauto extends Basecls {
 //	auto.resizethetab();
 	
 	//Close the window
-//	auto.clseWindow();
+	auto.clseWindow();
 	
 	//Close all the windows
 //	auto.clseallWindow();
